@@ -5,14 +5,10 @@ import ru.kostrykinmark.task.model.TaskPriority;
 import ru.kostrykinmark.task.model.TaskStatus;
 import ru.kostrykinmark.user.dto.UserDto;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Getter
-@Setter
-public class TaskDto {
-    private int id;
 
+@Data
+@Builder
+public class TaskDto {
     private String annotation;
 
     private String description;

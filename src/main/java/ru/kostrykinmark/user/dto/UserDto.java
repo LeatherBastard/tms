@@ -1,21 +1,15 @@
 package ru.kostrykinmark.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
-@AllArgsConstructor
+@Data
 @Builder
-@Getter
-@Setter
 public class UserDto {
-    private int id;
     @NotBlank
-    private String name;
+    private String username;
     @Email
     private String email;
 }

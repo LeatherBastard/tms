@@ -1,16 +1,15 @@
 package ru.kostrykinmark.user.model;
 
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+
 
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "users", schema = "public")
 public class User {
@@ -18,9 +17,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name", nullable = false, length = 250)
+    @Column(name = "username", nullable = false, length = 250)
     @Size(min = 2, max = 250)
-    private String name;
+    private String username;
     @Column(name = "email", nullable = false, length = 254)
     @Size(min = 6, max = 254)
     private String email;

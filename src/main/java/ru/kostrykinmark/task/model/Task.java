@@ -1,19 +1,19 @@
 package ru.kostrykinmark.task.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.user.model.User;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
-@Getter
-@Setter
 @Entity
 @Table(name = "tasks", schema = "public")
 public class Task {
