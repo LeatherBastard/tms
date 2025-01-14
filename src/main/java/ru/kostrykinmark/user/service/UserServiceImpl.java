@@ -4,9 +4,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kostrykinmark.exception.UserEmailOccupiedException;
@@ -41,7 +38,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public void signUpAdmin(SignUpUserDto userDto) {
         if (userRepository.existsUserByUsername(userDto.getUsername()))
@@ -52,7 +48,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setAuthorities(Set.of(roleRepository.findAdminRole()));
+        user.setRoles(Set.of(roleRepository.findAdminRole()));
         userRepository.save(user);
     }
 
@@ -66,14 +62,13 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setAuthorities(Set.of(roleRepository.findUserRole()));
+        user.setRoles(Set.of(roleRepository.findUserRole()));
         userRepository.save(user);
     }
 
 
     @Override
     public String signInUser(SignInUserDto user) {
-
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -2,11 +2,12 @@ package ru.kostrykinmark.comment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.kostrykinmark.task.model.Task;
 import ru.kostrykinmark.user.model.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class Comment {
     private User user;
     @Column(name = "text", nullable = false, length = 250)
     private String text;
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST,

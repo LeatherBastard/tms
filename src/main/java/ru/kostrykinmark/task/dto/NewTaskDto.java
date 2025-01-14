@@ -13,8 +13,6 @@ public class NewTaskDto {
 
     private String description;
 
-    private TaskStatus status;
-
     private TaskPriority priority;
 
     private Integer authorId;

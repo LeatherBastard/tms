@@ -6,4 +6,5 @@ import ru.kostrykinmark.task.model.Task;
 public interface TaskService {
     Task addTask(NewTaskDto task);
 
+
 }

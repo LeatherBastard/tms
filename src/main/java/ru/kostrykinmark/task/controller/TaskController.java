@@ -20,8 +20,8 @@ public class TaskController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Task addTask(@RequestBody NewTaskDto task) {
         return taskService.addTask(task);
     }

@@ -21,10 +21,14 @@ import java.io.IOException;
 @Log4j2
 @Component
 public class AuthJwtTokenFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwsUtils jwsUtils;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwsUtils jwsUtils;
+
+    private final UserDetailsService userDetailsService;
+
+    public AuthJwtTokenFilter(JwsUtils jwsUtils, UserDetailsService userDetailsService) {
+        this.jwsUtils = jwsUtils;
+        this.userDetailsService = userDetailsService;
+    }
 
 
     @Override
@@ -48,7 +52,7 @@ public class AuthJwtTokenFilter extends OncePerRequestFilter {
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7);
         }
         return null;
 

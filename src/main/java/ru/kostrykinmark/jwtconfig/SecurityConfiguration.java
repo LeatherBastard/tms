@@ -80,6 +80,8 @@ public class SecurityConfiguration {
                                 .hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
+
+
                 ).exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
