@@ -10,8 +10,8 @@ import ru.kostrykinmark.user.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Data
-@Builder
 @Entity
 @Table(name = "comments")
 public class Comment {

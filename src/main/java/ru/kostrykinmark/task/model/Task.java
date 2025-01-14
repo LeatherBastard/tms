@@ -12,8 +12,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Data
-@Builder
 @Entity
 @Table(name = "tasks", schema = "public")
 public class Task {

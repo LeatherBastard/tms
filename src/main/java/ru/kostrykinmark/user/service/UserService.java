@@ -1,8 +1,10 @@
 package ru.kostrykinmark.user.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import ru.kostrykinmark.user.dto.UserDto;
+import ru.kostrykinmark.user.dto.SignInUserDto;
+import ru.kostrykinmark.user.dto.SignUpUserDto;
 
 public interface UserService {
-
+    void signUpUser(SignUpUserDto user);
+    void signUpAdmin(SignUpUserDto user);
+    String signInUser(SignInUserDto user);
 }
