@@ -19,6 +19,9 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    public static final String USER_NOT_FOUND_MESSAGE = "User with id %d not found";
+
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;

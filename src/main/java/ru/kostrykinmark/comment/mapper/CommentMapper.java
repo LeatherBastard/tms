@@ -1,21 +1,23 @@
 package ru.kostrykinmark.comment.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.kostrykinmark.comment.dto.CommentDto;
+import ru.kostrykinmark.comment.dto.CommentResponseDto;
+import ru.kostrykinmark.comment.dto.NewCommentDto;
 import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.task.dto.NewTaskDto;
+import ru.kostrykinmark.task.dto.TaskShortDto;
+
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class CommentMapper {
-    public CommentDto mapToCommentDto(Comment comment) {
-        return CommentDto.builder()
-                .task(
-                        NewTaskDto.builder()
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-                                .build()
-                )
-
+    public CommentResponseDto mapToCommentDto(Comment comment) {
+        return CommentResponseDto.builder()
+                .id(comment.getId())
                 .text(comment.getText())
+                .created(comment.getCreated().format(formatter))
                 .build();
     }
 }

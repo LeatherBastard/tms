@@ -1,10 +1,12 @@
 package ru.kostrykinmark.jwtconfig;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -25,7 +27,7 @@ import ru.kostrykinmark.user.service.UserServiceImpl;
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/h2-console/**",
-            "/signIn", "/signUp", "/swagger-ui/**",
+            "/swagger-ui/**",
             "/swagger-resources",
             "/swagger-resources/**",
             "/v3/api-docs",
@@ -75,8 +77,12 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
-                        .permitAll()
-                                .requestMatchers("/tasks")
+                                .permitAll()
+                                .requestMatchers("/public/**")
+                                .permitAll()
+                                .requestMatchers("/user/**")
+                                .hasRole("USER")
+                                .requestMatchers("/admin/**")
                                 .hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()

@@ -4,8 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.kostrykinmark.role.model.Role;
 
-import java.lang.annotation.Native;
-
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query(
             value = "SELECT * FROM roles WHERE name = 'ROLE_USER'",

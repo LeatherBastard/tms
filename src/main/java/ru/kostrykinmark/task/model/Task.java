@@ -12,18 +12,20 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
+@Builder
 @Table(name = "tasks", schema = "public")
 public class Task {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "annotation", nullable = false, length = 250)
+    @Column(name = "title", nullable = false, length = 250)
     @Size(min = 20, max = 250)
-    private String annotation;
+    private String title;
     @Column(name = "description", nullable = false, length = 2000)
     @Size(min = 20, max = 2000)
     private String description;

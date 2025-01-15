@@ -36,9 +36,22 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleCategoryRelatedEventsException(final TaskRelatedCommentsException exception) {
+        return new ApiError(BAD_REQUEST_STATUS, BAD_REQUEST_REASON, exception.toString(), LocalDateTime.now());
+
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiError handleBadCredentialException(final BadCredentialsException exception) {
         return new ApiError(UNAUTHORIZED_STATUS, UNAUTHORIZED_REASON, exception.toString(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiError handleEntityNotFoundException(final EntityNotFoundException exception) {
+        return new ApiError(NOT_FOUND_STATUS, NOT_FOUND_REASON, exception.getMessage(), LocalDateTime.now());
     }
 
 }
