@@ -2,10 +2,7 @@ package ru.kostrykinmark.comment.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.kostrykinmark.comment.dto.CommentResponseDto;
-import ru.kostrykinmark.comment.dto.NewCommentDto;
 import ru.kostrykinmark.comment.model.Comment;
-import ru.kostrykinmark.task.dto.NewTaskDto;
-import ru.kostrykinmark.task.dto.TaskShortDto;
 
 import java.time.format.DateTimeFormatter;
 

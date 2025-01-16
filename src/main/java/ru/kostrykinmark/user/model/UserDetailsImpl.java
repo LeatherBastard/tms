@@ -1,20 +1,15 @@
-package ru.kostrykinmark.user.service;
+package ru.kostrykinmark.user.model;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.kostrykinmark.user.model.User;
 
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private final User user;
-
-
-
-    public UserDetailsImpl(User user) {
-        this.user = user;
-    }
 
     @Override
     public String getUsername() {
@@ -30,7 +25,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getPassword() {
         return user.getPassword();
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

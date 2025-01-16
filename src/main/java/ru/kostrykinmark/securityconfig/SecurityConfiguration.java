@@ -1,4 +1,4 @@
-package ru.kostrykinmark.jwtconfig;
+package ru.kostrykinmark.securityconfig;
 
 
 import org.springframework.context.annotation.Bean;
@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,7 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.kostrykinmark.user.service.UserServiceImpl;
+import ru.kostrykinmark.jwtconfig.AuthEntryPointJwt;
+import ru.kostrykinmark.jwtconfig.AuthTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,13 +36,17 @@ public class SecurityConfiguration {
 
     private final UserDetailsService userDetails;
     private final AuthEntryPointJwt unauthorizedHandler;
-    private final AuthJwtTokenFilter tokenFilter;
+    private final AuthTokenFilter tokenFilter;
 
-    public SecurityConfiguration(UserDetailsService userDetails, AuthEntryPointJwt unauthorizedHandler, AuthJwtTokenFilter tokenFilter) {
+
+    public SecurityConfiguration(UserDetailsService userDetails, AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter tokenFilter) {
         this.userDetails = userDetails;
         this.unauthorizedHandler = unauthorizedHandler;
         this.tokenFilter = tokenFilter;
     }
+
+
+
 
 
     @Bean
@@ -75,19 +79,21 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
+                .authorizeHttpRequests(req -> req
+                                .requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/public/**")
+                                .requestMatchers("/**")
+                                .anonymous().anyRequest()
                                 .permitAll()
-                                .requestMatchers("/user/**")
-                                .hasRole("USER")
-                                .requestMatchers("/admin/**")
-                                .hasRole("ADMIN")
-                                .anyRequest()
-                                .authenticated()
-
-
+                        /*     .requestMatchers("/public/**")
+                        .permitAll()
+                        .requestMatchers("/user/**")
+                        .hasRole("USER")
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+                        .anyRequest()
+                        .authenticated()
+                        */
                 ).exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

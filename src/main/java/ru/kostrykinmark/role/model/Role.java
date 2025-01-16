@@ -3,7 +3,6 @@ package ru.kostrykinmark.role.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 @NoArgsConstructor
 @Data

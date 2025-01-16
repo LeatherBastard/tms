@@ -2,20 +2,20 @@ package ru.kostrykinmark.task.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
-import ru.kostrykinmark.task.model.TaskPriority;
+import lombok.Builder;
+import lombok.Data;
 
 
 @Data
 @Builder
 public class NewTaskDto {
+    @NotBlank
     private String title;
-
+    @NotBlank
     private String description;
-
-    private TaskPriority priority;
-
+    @NotBlank
+    private String priority;
+    @NotNull
     private Integer executorId;
 
 }

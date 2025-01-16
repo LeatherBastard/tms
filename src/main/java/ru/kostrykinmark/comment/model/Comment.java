@@ -1,18 +1,19 @@
 package ru.kostrykinmark.comment.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.kostrykinmark.task.model.Task;
 import ru.kostrykinmark.user.model.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -31,9 +32,4 @@ public class Comment {
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.MERGE}, mappedBy = "comments")
-    @JsonIgnore
-    private List<Task> tasks = new ArrayList<>();
 }

@@ -1,13 +1,13 @@
 package ru.kostrykinmark.task.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.user.model.User;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "title", nullable = false, length = 250)
-    @Size(min = 20, max = 250)
+    @Size(min = 5, max = 250)
     private String title;
     @Column(name = "description", nullable = false, length = 2000)
     @Size(min = 20, max = 2000)

@@ -4,9 +4,6 @@ import ru.kostrykinmark.task.dto.NewTaskDto;
 import ru.kostrykinmark.task.dto.TaskFullDto;
 import ru.kostrykinmark.task.dto.UpdateTaskAdminRequest;
 import ru.kostrykinmark.task.dto.UpdateTaskUserRequest;
-import ru.kostrykinmark.task.model.Task;
-import ru.kostrykinmark.task.model.TaskPriority;
-import ru.kostrykinmark.task.model.TaskStatus;
 
 import java.util.List;
 

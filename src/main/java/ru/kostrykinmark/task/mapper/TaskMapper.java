@@ -10,7 +10,7 @@ import ru.kostrykinmark.user.dto.UserShortDto;
 
 @Component
 public class TaskMapper {
-    TaskShortDto mapToTaskShortDto(Task task) {
+    public TaskShortDto mapToTaskShortDto(Task task) {
         return TaskShortDto.builder()
                 .id(task.getId())
                 .title(task.getTitle())
@@ -49,7 +49,6 @@ public class TaskMapper {
         return Task.builder()
                 .title(taskDto.getTitle())
                 .description(taskDto.getDescription())
-                .priority(taskDto.getPriority())
                 .build();
     }
 

@@ -5,7 +5,6 @@ import lombok.Data;
 import ru.kostrykinmark.task.model.TaskPriority;
 import ru.kostrykinmark.task.model.TaskStatus;
 import ru.kostrykinmark.user.dto.UserShortDto;
-import ru.kostrykinmark.user.model.User;
 
 @Data
 @Builder
