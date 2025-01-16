@@ -1,6 +1,7 @@
 package ru.kostrykinmark.securityconfig;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -24,6 +25,7 @@ import ru.kostrykinmark.jwtconfig.AuthTokenFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/h2-console/**",
@@ -33,21 +35,9 @@ public class SecurityConfiguration {
             "/v3/api-docs",
             "/v3/api-docs/**"};
 
-
     private final UserDetailsService userDetails;
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter tokenFilter;
-
-
-    public SecurityConfiguration(UserDetailsService userDetails, AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter tokenFilter) {
-        this.userDetails = userDetails;
-        this.unauthorizedHandler = unauthorizedHandler;
-        this.tokenFilter = tokenFilter;
-    }
-
-
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -99,7 +89,5 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-
     }
-
 }
