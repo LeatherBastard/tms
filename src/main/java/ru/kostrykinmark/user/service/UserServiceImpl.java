@@ -36,20 +36,6 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void signUpAdmin(SignUpUserDto userDto) {
-        if (userRepository.existsUserByUsername(userDto.getUsername()))
-            throw new UsernameOccupiedException("Choose different name");
-        if (userRepository.existsUserByEmail(userDto.getEmail()))
-            throw new UserEmailOccupiedException("Choose different email");
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(Set.of(roleRepository.findAdminRole()));
-        userRepository.save(user);
-    }
-
-    @Override
     public void signUpUser(SignUpUserDto userDto) {
         if (userRepository.existsUserByUsername(userDto.getUsername()))
             throw new UsernameOccupiedException("Choose different name");

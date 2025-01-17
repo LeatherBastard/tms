@@ -25,7 +25,7 @@ public class Comment {
     @JoinColumn(name = "task_id")
     private Task task;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "user_id")
     private User user;
     @Column(name = "text", nullable = false, length = 250)
     private String text;

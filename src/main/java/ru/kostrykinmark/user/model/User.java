@@ -3,6 +3,8 @@ package ru.kostrykinmark.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.kostrykinmark.role.model.Role;
@@ -10,8 +12,10 @@ import ru.kostrykinmark.role.model.Role;
 import java.util.Set;
 
 
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "users", schema = "public")
 public class User {
