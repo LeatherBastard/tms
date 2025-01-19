@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String signInUser(SignInUserDto user) {
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwsUtils.generateJwtToken(authentication);
     }

@@ -69,7 +69,7 @@ class PublicControllerTest {
         mockMvc.perform(post("/public/signIn")
                 .content(new ObjectMapper().writeValueAsString(
                         SignInUserDto.builder()
-                                .username("kostrykinmark")
+                                .email("kostrykinmark@gmail.com")
                                 .password("12345")
                                 .build()
                 ))
@@ -83,7 +83,7 @@ class PublicControllerTest {
         mockMvc.perform(post("/public/signIn")
                 .content(new ObjectMapper().writeValueAsString(
                         SignInUserDto.builder()
-                                .username("kostrykinmark")
+                                .email("kostrykinmark@gmail.com")
                                 .password("1245")
                                 .build()
                 ))

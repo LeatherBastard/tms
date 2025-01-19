@@ -49,8 +49,8 @@ class UserDetailsServiceImplTest {
 
     @Test
     void test_loadUserByUsername_returnsUserWithCorrectEmail() {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-        assertEquals(user.getUsername(), userDetails.getUsername());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        assertEquals(user.getEmail(), userDetails.getUsername());
     }
 
     @Test

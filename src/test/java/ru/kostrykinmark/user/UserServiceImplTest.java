@@ -57,7 +57,7 @@ public class UserServiceImplTest {
                 .password("12345")
                 .build();
         userSignInDto = SignInUserDto.builder()
-                .username("Mark")
+                .email("kostrykinmark@gmail.com")
                 .password("12345")
                 .build();
     }
