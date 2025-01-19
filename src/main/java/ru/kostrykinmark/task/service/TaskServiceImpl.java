@@ -8,7 +8,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.comment.repository.CommentRepository;
 import ru.kostrykinmark.exception.*;
 import ru.kostrykinmark.task.dto.NewTaskDto;
@@ -25,9 +24,8 @@ import ru.kostrykinmark.user.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static ru.kostrykinmark.task.model.TaskStatus.*;
+import static ru.kostrykinmark.task.model.TaskStatus.WAITING;
 import static ru.kostrykinmark.user.service.UserServiceImpl.USER_NOT_FOUND_MESSAGE;
 
 
@@ -62,38 +60,40 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskFullDto> getAllTasks(Integer authorId, Integer executorId, String text, List<String> statuses, List<String> priorities, int from, int size) {
-        User author = userRepository.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE, authorId));
+        if (authorId != null) {
+            userRepository.findById(authorId)
+                    .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE, authorId));
+        }
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Task> criteriaQuery = criteriaBuilder.createQuery(Task.class);
         Root<Task> root = criteriaQuery.from(Task.class);
         List<Predicate> predicates = new ArrayList<>();
         if (authorId != null)
-            predicates.add(criteriaBuilder.isTrue(root.get("author")).in(authorId));
+            predicates.add(criteriaBuilder.equal(root.get("author").get("id"), authorId));
 
         if (executorId != null)
-            predicates.add(criteriaBuilder.isTrue(root.get("executor")).in(executorId));
+            predicates.add(criteriaBuilder.equal(root.get("executor").get("id"), executorId));
 
         if (text != null) {
-            Predicate likeInTitle = criteriaBuilder.like(
+            predicates.add(criteriaBuilder.like(
                     criteriaBuilder.lower(root.get("title")),
                     "%" + text.toLowerCase() + "%"
-            );
-            Predicate likeInDescription = criteriaBuilder.like(
+            ));
+            predicates.add(criteriaBuilder.like(
                     criteriaBuilder.lower(root.get("description")),
                     "%" + text.toLowerCase() + "%"
-            );
+            ));
         }
         if (statuses != null)
             predicates.add(criteriaBuilder.isTrue(root.get("status").as(String.class).in(statuses)));
 
         if (priorities != null)
             predicates.add(criteriaBuilder.isTrue(root.get("priority").as(String.class).in(priorities)));
-        criteriaQuery.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
+        criteriaQuery.select(root).where(predicates.toArray(new Predicate[0]));
         TypedQuery<Task> query = entityManager.createQuery(criteriaQuery)
                 .setFirstResult(from)
                 .setMaxResults(size);
-        return query.getResultList().stream().map(taskMapper::mapToTaskFullDto).collect(Collectors.toList());
+        return query.getResultList().stream().map(taskMapper::mapToTaskFullDto).toList();
     }
 
 
@@ -105,14 +105,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(int taskId) {
         Task task = getTaskById(taskId);
-        List<Comment> comments = commentRepository.findByTask_Id(taskId);
-        if (comments.size() > 0)
+        if (!task.getComments().isEmpty())
             throw new TaskRelatedCommentsException(taskId);
         taskRepository.delete(task);
     }
 
     @Override
-    public TaskFullDto updateEventByAdmin(int taskId, UpdateTaskAdminRequest adminTaskRequest) {
+    public TaskFullDto updateTaskByAdmin(int taskId, UpdateTaskAdminRequest adminTaskRequest) {
         Task oldTask = getTaskById(taskId);
         if (adminTaskRequest.getTitle() != null)
             oldTask.setTitle(adminTaskRequest.getTitle());
@@ -129,7 +128,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         if (adminTaskRequest.getPriority() != null) {
-            String priority = adminTaskRequest.getStatus();
+            String priority = adminTaskRequest.getPriority();
             try {
                 oldTask.setPriority(TaskPriority.valueOf(priority));
             } catch (IllegalArgumentException e) {
@@ -148,22 +147,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskFullDto updateTaskByUser(int userId, int taskId, UpdateTaskUserRequest userEventRequest) {
+    public TaskFullDto updateTaskByUser(int userId, int taskId, UpdateTaskUserRequest userTaskRequest) {
         Task oldTask = getTaskById(taskId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_MESSAGE, userId));
         if (oldTask.getAuthor().getId() != user.getId()) {
             throw new TaskAuthorException(taskId, userId);
         }
-        if (userEventRequest.getStatus() != null) {
-            String status = userEventRequest.getStatus();
-            if (status.equals(WAITING.name()))
-                oldTask.setStatus(WAITING);
-            else if (status.equals(IN_PROCESS.name()))
-                oldTask.setStatus(IN_PROCESS);
-            else if ((status.equals(FINISHED.name())))
-                oldTask.setStatus(FINISHED);
-            else throw new TaskIncorrectStatusException(status);
+        if (userTaskRequest.getStatus() != null) {
+            String status = userTaskRequest.getStatus();
+            try {
+                oldTask.setStatus(TaskStatus.valueOf(status));
+            } catch (IllegalArgumentException e) {
+                throw new TaskIncorrectStatusException(status);
+            }
         }
         return taskMapper.mapToTaskFullDto(taskRepository.save(oldTask));
     }

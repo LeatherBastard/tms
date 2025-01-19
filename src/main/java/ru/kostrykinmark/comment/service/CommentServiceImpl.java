@@ -36,6 +36,8 @@ import static ru.kostrykinmark.user.service.UserServiceImpl.USER_NOT_FOUND_MESSA
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
+    private static final String CREATED_FIELD_NAME = "created";
+
     private final RoleRepository roleRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
@@ -90,10 +92,10 @@ public class CommentServiceImpl implements CommentService {
         }
 
         if (rangeStart != null && rangeEnd != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("created"), rangeStart));
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("created"), rangeEnd));
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(CREATED_FIELD_NAME), rangeStart));
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(CREATED_FIELD_NAME), rangeEnd));
         } else {
-            predicates.add(criteriaBuilder.greaterThan(root.get("created"), LocalDateTime.now().minusDays(1)));
+            predicates.add(criteriaBuilder.greaterThan(root.get(CREATED_FIELD_NAME), LocalDateTime.now().minusDays(1)));
         }
         criteriaQuery.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
         TypedQuery<Comment> query = entityManager.createQuery(criteriaQuery)

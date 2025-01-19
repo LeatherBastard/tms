@@ -1,4 +1,4 @@
-package ru.kostrykinmark.securityconfig;
+package ru.kostrykinmark.config;
 
 
 import lombok.RequiredArgsConstructor;
@@ -70,20 +70,16 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                                .requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
-                                .requestMatchers("/**")
-                                .anonymous().anyRequest()
-                                .permitAll()
-                        /*     .requestMatchers("/public/**")
+                        .requestMatchers(WHITE_LIST_URL)
+                        .permitAll()
+                        .requestMatchers("/public/**")
                         .permitAll()
                         .requestMatchers("/user/**")
-                        .hasRole("USER")
+                        .hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**")
                         .hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
-                        */
                 ).exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

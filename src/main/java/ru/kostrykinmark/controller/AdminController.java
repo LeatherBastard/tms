@@ -32,7 +32,7 @@ public class AdminController {
 
     @PostMapping("/{adminId}/tasks")
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskFullDto addTask(@PathVariable("adminId") int adminId,@RequestBody NewTaskDto taskDto) {
+    public TaskFullDto addTask(@PathVariable("adminId") int adminId, @RequestBody NewTaskDto taskDto) {
         log.info(LOGGER_ADD_TASK_MESSAGE, taskDto);
         return taskService.addTask(adminId, taskDto);
     }
@@ -51,9 +51,9 @@ public class AdminController {
     }
 
     @PatchMapping("/tasks/{taskId}")
-    public TaskFullDto updateTask(@PathVariable("taskId") int taskId, @RequestBody @Validated UpdateTaskAdminRequest adminTaskRequest) {
+    public TaskFullDto updateTaskByAdmin(@PathVariable("taskId") int taskId, @RequestBody @Validated UpdateTaskAdminRequest adminTaskRequest) {
         log.info(LOGGER_UPDATE_ADMIN_TASK_MESSAGE, taskId);
-        return taskService.updateEventByAdmin(taskId, adminTaskRequest);
+        return taskService.updateTaskByAdmin(taskId, adminTaskRequest);
     }
 
     @GetMapping("/{adminId}/tasks/{taskId}/comments")

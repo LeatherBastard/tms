@@ -9,11 +9,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.kostrykinmark.role.model.Role;
 import ru.kostrykinmark.role.repository.RoleRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class RoleRepositoryTest {
+class RoleRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
@@ -22,14 +22,14 @@ public class RoleRepositoryTest {
 
 
     @Test
-    public void whenFindUserRole_thenReturnUserRole() {
+    void whenFindUserRole_thenReturnUserRole() {
         String roleName = "ROLE_USER";
         Role actual = roleRepository.findUserRole();
         assertEquals(roleName, actual.getName());
     }
 
     @Test
-    public void whenFindAdminRole_thenReturnAdminRole() {
+    void whenFindAdminRole_thenReturnAdminRole() {
         String roleName = "ROLE_ADMIN";
         Role actual = roleRepository.findAdminRole();
         assertEquals(roleName, actual.getName());

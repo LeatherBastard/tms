@@ -5,5 +5,6 @@ import ru.kostrykinmark.user.dto.SignUpUserDto;
 
 public interface UserService {
     void signUpUser(SignUpUserDto user);
+
     String signInUser(SignInUserDto user);
 }

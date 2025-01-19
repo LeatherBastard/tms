@@ -1,6 +1,5 @@
 package ru.kostrykinmark.user;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class UserRepositoryTest {
+class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
@@ -29,7 +28,7 @@ public class UserRepositoryTest {
     private User user;
 
     @BeforeEach
-    public void initialize() {
+    void initialize() {
         user = User.builder()
                 .username("Mark")
                 .password("1234")
@@ -40,7 +39,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void whenFindByUsername_thenReturnUser() {
+    void whenFindByUsername_thenReturnUser() {
         Optional<User> actual = userRepository.findByUsername(user.getUsername());
         assertTrue(actual.isPresent());
         User actualUser = actual.get();
@@ -51,31 +50,31 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void whenNotFindByUsername_thenReturnEmpty() {
+    void whenNotFindByUsername_thenReturnEmpty() {
         Optional<User> actual = userRepository.findByUsername("username");
         assertTrue(actual.isEmpty());
     }
 
     @Test
-    public void whenExistsByUsername_thenReturnTrue() {
+    void whenExistsByUsername_thenReturnTrue() {
         boolean actual = userRepository.existsUserByUsername(user.getUsername());
         assertTrue(actual);
     }
 
     @Test
-    public void whenNotExistsByUsername_thenReturnFalse() {
+    void whenNotExistsByUsername_thenReturnFalse() {
         boolean actual = userRepository.existsUserByUsername("adadadda");
         assertFalse(actual);
     }
 
     @Test
-    public void whenExistsByEmail_thenReturnTrue() {
+    void whenExistsByEmail_thenReturnTrue() {
         boolean actual = userRepository.existsUserByEmail(user.getEmail());
         assertTrue(actual);
     }
 
     @Test
-    public void whenNotExistsByEmail_thenReturnFalse() {
+    void whenNotExistsByEmail_thenReturnFalse() {
         boolean actual = userRepository.existsUserByEmail("adsad@yandex.ru");
         assertFalse(actual);
     }

@@ -22,7 +22,8 @@ import ru.kostrykinmark.user.model.User;
 import ru.kostrykinmark.user.repository.UserRepository;
 import ru.kostrykinmark.user.service.UserServiceImpl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -72,7 +73,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void whenSignUpUser_thenSuccessful() {
+    void whenSignUpUser_thenSuccessful() {
         when(userRepository.existsUserByUsername(userSignUpDto.getUsername())).thenReturn(false);
         when(userRepository.existsUserByEmail(userSignUpDto.getEmail())).thenReturn(false);
         when(roleRepository.findUserRole()).thenReturn(Role.builder()
@@ -90,7 +91,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void whenSignUpUsernameOccupied_thenUsernameOccupiedException() {
+    void whenSignUpUsernameOccupied_thenUsernameOccupiedException() {
         when(userRepository.existsUserByUsername(userSignUpDto.getUsername())).thenReturn(true);
         verifyNoInteractions(roleRepository);
         verifyNoInteractions(passwordEncoder);
@@ -98,7 +99,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void whenSignUpUserEmailOccupied_thenUserEmailOccupiedException() {
+    void whenSignUpUserEmailOccupied_thenUserEmailOccupiedException() {
         when(userRepository.existsUserByUsername(userSignUpDto.getEmail())).thenReturn(false);
         when(userRepository.existsUserByEmail(userSignUpDto.getEmail())).thenReturn(true);
         verifyNoInteractions(roleRepository);
@@ -107,7 +108,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void whenSignInUser_thenSuccessful() {
+    void whenSignInUser_thenSuccessful() {
         userService.signInUser(userSignInDto);
         verify(authenticationManager, times(1)).authenticate(any());
         verify(jwsUtils, times(1)).generateJwtToken(any());

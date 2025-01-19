@@ -37,9 +37,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUpUser(SignUpUserDto userDto) {
-        if (userRepository.existsUserByUsername(userDto.getUsername()))
+
+        boolean userExistsByUsername = userRepository.existsUserByUsername(userDto.getUsername());
+        boolean userExistsByEmail = userRepository.existsUserByEmail(userDto.getEmail());
+        if (userExistsByUsername)
             throw new UsernameOccupiedException("Choose different name");
-        if (userRepository.existsUserByEmail(userDto.getEmail()))
+        if (userExistsByEmail)
             throw new UserEmailOccupiedException("Choose different email");
         User user = new User();
         user.setUsername(userDto.getUsername());
@@ -55,8 +58,7 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwtToken = jwsUtils.generateJwtToken(authentication);
-        return jwtToken;
+        return jwsUtils.generateJwtToken(authentication);
     }
 
 

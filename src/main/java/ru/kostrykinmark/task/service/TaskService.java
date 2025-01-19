@@ -15,7 +15,7 @@ public interface TaskService {
 
     void delete(int taskId);
 
-    TaskFullDto updateEventByAdmin(int taskId, UpdateTaskAdminRequest adminTaskRequest);
+    TaskFullDto updateTaskByAdmin(int taskId, UpdateTaskAdminRequest adminTaskRequest);
 
     TaskFullDto updateTaskByUser(int userId, int taskId, UpdateTaskUserRequest userEventRequest);
 

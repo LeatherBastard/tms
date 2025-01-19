@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.user.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -42,9 +41,9 @@ public class Task {
             }
     )
     @JoinTable(name = "comments",
-            joinColumns = {@JoinColumn(name = "comment_id")},
+            joinColumns = {@JoinColumn(name = "id")},
             inverseJoinColumns = {@JoinColumn(name = "task_id")})
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

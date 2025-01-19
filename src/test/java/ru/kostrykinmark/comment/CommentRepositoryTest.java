@@ -1,17 +1,12 @@
 package ru.kostrykinmark.comment;
 
-import lombok.AllArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.comment.repository.CommentRepository;
 import ru.kostrykinmark.role.repository.RoleRepository;
@@ -25,11 +20,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class CommentRepositoryTest {
+class CommentRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
     @Autowired
@@ -44,8 +40,6 @@ public class CommentRepositoryTest {
 
     private User user;
     private Task task;
-    private Comment comment;
-    private Comment comment2;
 
 
     @BeforeEach
@@ -65,14 +59,14 @@ public class CommentRepositoryTest {
                 .executor(user)
                 .build();
         task = taskRepository.save(task);
-        comment = Comment.builder()
+        Comment comment = Comment.builder()
                 .user(user)
                 .task(task)
                 .text("My comment")
                 .created(LocalDateTime.now())
                 .build();
         comment = commentRepository.save(comment);
-        comment2 = Comment.builder()
+        Comment comment2 = Comment.builder()
                 .user(user)
                 .task(task)
                 .text("My comment #2")
@@ -83,9 +77,9 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    public void whenFindByTaskId_thenReturnComments() {
+    void whenFindByTaskId_thenReturnComments() {
         List<Comment> comments = commentRepository.findByTask_Id(task.getId());
-        assertTrue(comments.size() == 2);
+        assertEquals(2, comments.size());
         assertEquals(user, comments.get(0).getUser());
         assertEquals(task, comments.get(0).getTask());
         assertEquals("My comment", comments.get(0).getText());
@@ -95,7 +89,7 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    public void whenNotFindByTaskId_thenReturnEmptyList() {
+    void whenNotFindByTaskId_thenReturnEmptyList() {
         List<Comment> comments = commentRepository.findByTask_Id(9);
         assertTrue(comments.isEmpty());
     }
