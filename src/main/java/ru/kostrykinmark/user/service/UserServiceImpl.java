@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUpUser(SignUpUserDto userDto) {
-
         boolean userExistsByUsername = userRepository.existsUserByUsername(userDto.getUsername());
         boolean userExistsByEmail = userRepository.existsUserByEmail(userDto.getEmail());
         if (userExistsByUsername)

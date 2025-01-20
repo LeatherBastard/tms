@@ -14,6 +14,9 @@ public class ErrorHandler {
     private static final String BAD_REQUEST_STATUS = "BAD_REQUEST";
     private static final String BAD_REQUEST_REASON = "Incorrectly made request.";
 
+    private static final String CONFLICT_STATUS = "CONFLICT";
+    private static final String CONFLICT_REASON = "Incorrectly made request.";
+
     private static final String UNAUTHORIZED_STATUS = "UNAUTHORIZED";
     private static final String UNAUTHORIZED_REASON = "You are not authorized to make such request";
 
@@ -23,10 +26,11 @@ public class ErrorHandler {
     private static final String INTERNAL_SERVER_ERROR_STATUS = "INTERNAL_SERVER_ERROR";
     private static final String INTERNAL_SERVER_ERROR_REASON = "Internal server error.";
 
+
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleUserNameOccupiedException(final UsernameOccupiedException exception) {
-        return new ApiError(BAD_REQUEST_STATUS, BAD_REQUEST_REASON, exception.toString(), LocalDateTime.now());
+        return new ApiError(ErrorHandler.CONFLICT_STATUS, ErrorHandler.CONFLICT_REASON, exception.toString(), LocalDateTime.now());
     }
 
     @ExceptionHandler
@@ -57,13 +61,13 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleUserEmailOccupiedException(final UserEmailOccupiedException exception) {
-        return new ApiError(BAD_REQUEST_STATUS, BAD_REQUEST_REASON, exception.toString(), LocalDateTime.now());
+        return new ApiError(CONFLICT_STATUS, CONFLICT_REASON, exception.toString(), LocalDateTime.now());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleCategoryRelatedEventsException(final TaskRelatedCommentsException exception) {
-        return new ApiError(BAD_REQUEST_STATUS, BAD_REQUEST_REASON, exception.toString(), LocalDateTime.now());
+        return new ApiError(CONFLICT_STATUS, CONFLICT_REASON, exception.toString(), LocalDateTime.now());
     }
 
     @ExceptionHandler

@@ -1,0 +1,26 @@
+services:
+  tms-service:
+    build:
+      dockerfile: Dockerfile
+    image: tms-service-image
+    container_name: tsm-service-container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - tms-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://tms-db-container:5432/tms
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=pass
+  tms-db:
+    image: postgres:14-alpine
+    container_name: tms-db-container
+    ports:
+      - "65432:5432"
+    volumes:
+      - /var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=tms
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+
