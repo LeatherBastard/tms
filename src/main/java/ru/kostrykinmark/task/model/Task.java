@@ -2,18 +2,18 @@ package ru.kostrykinmark.task.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.kostrykinmark.comment.model.Comment;
 import ru.kostrykinmark.user.model.User;
 
 import java.util.List;
 
+
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity
 @Builder
 @Table(name = "tasks", schema = "public")

@@ -1,18 +1,17 @@
 package ru.kostrykinmark.comment.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.kostrykinmark.task.model.Task;
 import ru.kostrykinmark.user.model.User;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 @Entity
 @Table(name = "comments")

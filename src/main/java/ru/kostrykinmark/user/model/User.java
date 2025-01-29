@@ -3,16 +3,15 @@ package ru.kostrykinmark.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.kostrykinmark.role.model.Role;
 
 import java.util.Set;
 
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
